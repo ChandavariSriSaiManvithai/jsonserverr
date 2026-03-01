@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+</head>
+<body>
+  <h1>Todo</h1>
+  <form onsubmit="addTodo(event)">
+    <input type="text" id="title" placeholder="Enter title"><br>
+    <input type="text" id="status" placeholder="Enter status"><br>
+    <button type="submit">Add</button>
+  </form>
+
+  <ul id="list"></ul>
+
+  <script>
+    function addTodo(ev) {
+      ev.preventDefault();
+
+      fetch("http://localhost:3000/todos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: document.getElementById("title").value,
+          status: document.getElementById("status").value
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log("Saved:", data);
+
+        // Show the new todo in the list
+        const li = document.createElement("li");
+        li.textContent = `${data.title} - ${data.status}`;
+        document.getElementById("list").appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog App</title>
+    <style>
+        #d1{
+            background-color: rgb(56, 114, 134);
+            padding:50px;
+
+        }
+        #d2{
+            background-color: cyan;
+            width:200px;
+            height:100px;
+            padding:20px;
+            margin:20px;
+        }
+        #posts{
+            display: flex;
+            flex-wrap:wrap;
+            gap:20px;
+            cursor: pointer;
+        }
+        #posts li {
+    width: 200px;
+    height: 150px;
+    list-style: none;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#posts li:hover {
+    background: #b3c5c9;
+    transform: scale(1.05);
+}
+    </style>
+</head>
+<body id="d1">
+
+    <form onsubmit="addPost(event)" >
+        <input type="text" id="title" placeholder="Title" required>
+        <br><br>
+
+        <input type="text" id="description" placeholder="Description" required>
+        <br><br>
+
+        <input type="text" id="thumbnail" placeholder="Image URL" required>
+        <br><br>
+
+        <button>Add Post</button>
+    </form>
+
+    <h1>Posts</h1>
+    <ul id="posts"></ul>
+
+    <script >
+
+        function getAllPosts() {
+            document.getElementById("posts").innerHTML = "";
+
+            fetch("http://localhost:3000/posts")
+                .then(res => res.json())
+                .then(data => {
+                    data.forEach(post => {
+
+                        var npost = `
+                        <a href="post.html?pid=${post.id}">
+                            <li>
+                                <img src="${post.thumbnail}" width="100">
+                                <h3>${post.title}</h3>
+                                
+                            </li>
+                        </a>
+                        `;
+
+                        document.getElementById("posts").innerHTML += npost;
+                    });
+                });
+        }
+
+        function addPost(ev) {
+            ev.preventDefault();
+
+            fetch("http://localhost:3000/posts", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    title: document.getElementById("title").value,
+                    description: document.getElementById("description").value,
+                    thumbnail: document.getElementById("thumbnail").value,
+                    likes: 0,
+                    shares: 0
+                })
+            })
+            .then(() => {
+                getAllPosts();
+            });
+        }
+
+        getAllPosts();
+
+    </script>
+
+</body>
+</html>

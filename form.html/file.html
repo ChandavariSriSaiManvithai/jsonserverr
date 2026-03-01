@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        img {
+            max-width: 300px;
+            display: block;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="title"></h1>
+    <p id="description"></p>
+    <img id="image" src="" alt="">
+    <button onclick="goBack()">Back</button>
+
+    <script>
+        // Get the product ID from the URL
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+
+        // Fetch product details
+        fetch(https://dummyjson.com/products/${id})
+            .then(res => res.json())
+            .then(product => {
+                document.getElementById("title").innerText = product.title;
+                document.getElementById("description").innerText = product.description;
+                document.getElementById("image").src = product.thumbnail;
+                document.getElementById("image").alt = product.title;
+            });
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>

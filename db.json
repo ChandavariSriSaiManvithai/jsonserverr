@@ -1,0 +1,42 @@
+{
+  "bro": [],
+  "todos": [
+    {
+      "title": "hi",
+      "status": "haunting adenaline",
+      "id": 2
+    },
+    {
+      "title": "",
+      "status": "",
+      "id": 3
+    }
+  ],
+  "posts": [
+    {
+      "title": "Potato",
+      "description": "A potato is a starchy tuber of the plant Solanum tuberosum and is a root vegetable native to the Americas. Potatoes are a staple food in many parts of the world and are used in a variety of dishes, including mashed potatoes, french fries, and potato chips. They are also a good source of vitamins and minerals, including vitamin C, potassium, and dietary fiber",
+      "thumbnail": "https://img.freepik.com/free-psd/single-yellow-potato-closeup-studio-shot_191095-85935.jpg?semt=ais_rp_progressive&w=740&q=80",
+      "likes": 5,
+      "id": 2
+    },
+    {
+      "title": "Tomato",
+      "description": "A tomato is a complex mixture, not a pure substance. Its composition includes a variety of compounds such as water, vitamins, minerals, acids, and pigments. ",
+      "thumbnail": "https://tse3.mm.bing.net/th/id/OIP.VLq0kRvM53MGoT7XMmwLOwHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "likes": 2,
+      "shares": 0,
+      "id": 3
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

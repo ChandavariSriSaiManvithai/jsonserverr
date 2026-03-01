@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+    <title>Product Details</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background:rgb(120, 70, 70);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            width: 400px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .card h2 {
+            margin: 15px 0 10px;
+        }
+
+        .card p {
+            color: #555;
+        }
+
+        .card button {
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .card button:hover {
+            background-color: #e63950;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+<div id="container"></div>
+
+<script>
+
+var params = new URLSearchParams(window.location.search);
+var id = params.get("pid");
+var postDetails = {};
+
+function getPostDetails() {
+
+    fetch(`http://localhost:3000/posts/${id}`)
+    .then(res => res.json())
+    .then(post => {
+
+        postDetails = post;
+
+        var details = `
+        <div class="card">
+            <img src="${post.thumbnail}">
+            <h2>${post.title}</h2>
+            <p>${post.description}</p>
+            <button onclick="like()"> Like (${post.likes})</button>
+        </div>
+        `
+
+        document.getElementById("container").innerHTML = details;
+
+    })
+}
+
+getPostDetails();
+
+function like() {
+
+    fetch(`http://localhost:3000/posts/${postDetails.id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            likes: postDetails.likes + 1
+        })
+    })
+    .then(res => res.json())
+    .then(() => {
+        getPostDetails()
+    })
+}
+
+</script>
+
+</body>
+</html>

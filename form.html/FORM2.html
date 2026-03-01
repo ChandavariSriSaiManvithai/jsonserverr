@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Advanced Todo App</title>
+
+<style>
+body{
+  font-family:Segoe UI;
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:0;
+  color:white;
+}
+
+.box{
+  background:rgba(0,0,0,0.6);
+  padding:30px;
+  border-radius:15px;
+  width:450px;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:8px;
+  border:none;
+  outline:none;
+}
+
+button{
+  padding:6px 10px;
+  border:none;
+  border-radius:6px;
+  margin:5px 3px;
+  cursor:pointer;
+}
+
+.addBtn{ width:100%; padding:10px; background:#4da6ff; color:white; }
+.doneBtn{ background:#28a745; color:white; }
+.editBtn{ background:#ffc107; }
+.deleteBtn{ background:#dc3545; color:white; }
+.filterBtn{ background:#999; color:white; }
+
+li{
+  background:rgba(255,255,255,0.15);
+  padding:10px;
+  margin-top:10px;
+  border-radius:8px;
+}
+
+.completed{
+  text-decoration:line-through;
+  opacity:0.6;
+}
+
+.progressBox{
+  background:#333;
+  border-radius:10px;
+  margin-top:10px;
+  overflow:hidden;
+}
+
+.progressBar{
+  height:10px;
+  background:#28a745;
+  width:0%;
+}
+
+.msg{
+  text-align:center;
+  margin-top:10px;
+  color:#90ffb0;
+}
+
+.counter{
+  margin-top:10px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<form onsubmit="addTodo(event)">
+<input id="title" placeholder="Title" >
+<input id="status" placeholder="Status" >
+<input type="date" id="dueDate">
+<button class="addBtn">Add Todo</button>
+</form>
+
+<input id="search" placeholder="Search task..." oninput="getAllTodos()">
+
+<div class="counter" id="counter"></div>
+
+<div>
+<button class="filterBtn" onclick="setFilter('all')">All</button>
+<button class="filterBtn" onclick="setFilter('pending')">Pending</button>
+<button class="filterBtn" onclick="setFilter('completed')">Completed</button>
+</div>
+
+<div class="progressBox">
+<div class="progressBar" id="progress"></div>
+</div>
+
+<div class="msg" id="msg"></div>
+
+<ul id="todos"></ul>
+
+</div>
+
+<script>
+
+const API = "http://localhost:3000/todos";
+
+async function getTodos(){
+  const list = document.getElementById("todos");
+  list.innerHTML = "";
+
+  const res = await fetch(API);
+  const data = await res.json();
+
+  document.getElementById("counter").innerText =
+    "Total: " + data.length;
+
+  data.forEach(todo => {
+
+    const li = document.createElement("li");
+
+    if(todo.completed){
+      li.style.textDecoration = "line-through";
+    }
+
+    li.innerHTML = `
+      ${todo.title} - ${todo.status}
+      <br>
+      <button onclick="toggleDone(${todo.id}, ${todo.completed})">
+        ${todo.completed ? "Completed" : "Done"}
+      </button>
+      <button onclick="deleteTodo(${todo.id})">Delete</button>
+    `;
+
+    list.appendChild(li);
+  });
+}
+
+async function addTodo(e){
+  e.preventDefault();
+
+  const title = document.getElementById("title").value;
+  const status = document.getElementById("status").value;
+
+  await fetch(API,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({
+      title:title,
+      status:status,
+      completed:false
+    })
+  });
+
+  e.target.reset();
+  getTodos();
+}
+
+async function toggleDone(id, completed){
+
+  const res = await fetch(API + "/" + id);
+  const todo = await res.json();
+
+  await fetch(API + "/" + id,{
+    method:"PUT",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({
+      ...todo,
+      completed: !completed
+    })
+  });
+
+  getTodos();
+}
+
+async function deleteTodo(id){
+  await fetch(API + "/" + id,{
+    method:"DELETE"
+  });
+
+  getTodos();
+}
+
+getTodos();
+
+</script>
+
+</body>
+</html>

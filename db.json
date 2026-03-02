@@ -27,6 +27,22 @@
       "likes": 2,
       "shares": 0,
       "id": 3
+    },
+    {
+      "title": "Strawberry",
+      "description": "The fruit is appreciated for its aroma, bright red colour, juicy texture, and sweetness. ",
+      "thumbnail": "https://img.freepik.com/premium-photo/strawberry-garden_41471-9.jpg",
+      "likes": 2,
+      "shares": 0,
+      "id": 4
+    },
+    {
+      "title": "Blueberry",
+      "description": "Blueberries are a widely distributed and widespread group of perennial flowering plants with blue or purple berries.",
+      "thumbnail": "https://www.tastingtable.com/img/gallery/15-types-of-blueberries-and-what-makes-them-unique/l-intro-1656439699.jpg",
+      "likes": 2,
+      "shares": 0,
+      "id": 5
     }
   ],
   "comments": [

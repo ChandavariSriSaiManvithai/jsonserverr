@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <style>
+    table {
+      width: 50%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #c58080;
+    }
+    </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const students = [
+      { fullname: "Justin", age: 20, city: "New York" },
+      { fullname: "Alice", age: 22, city: "Los Angeles" },
+      { fullname: "Bob", age: 19, city: "Chicago" }
+    ];
+
+    const table = (
+      <table border="1">
+        
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>City</th>
+          </tr>
+                 {students.map((item) => (
+            <tr >
+              <td>{item.fullname}</td>
+              <td>{item.age}</td>
+              <td>{item.city}</td>
+            </tr>
+          ))}
+        
+      </table>
+    );
+    ReactDOM.render(table, document.getElementById("root"));
+
+  </script>
+</body>
+</html>
